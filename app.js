@@ -5,7 +5,9 @@ const els = {
   studyPage: document.querySelector("#studyPage"),
   search: document.querySelector("#searchInput"),
   list: document.querySelector("#readingList"),
-  back: document.querySelector("#backButton"),
+  menu: document.querySelector("#menuButton"),
+  prev: document.querySelector("#prevReading"),
+  next: document.querySelector("#nextReading"),
   title: document.querySelector("#readingTitle"),
   passage: document.querySelector("#passageContainer"),
   questions: document.querySelector("#questionContainer"),
@@ -63,6 +65,12 @@ function renderMenu() {
     });
 }
 
+function updateReadingNav() {
+  const index = readings.findIndex((reading) => reading.id === currentId);
+  els.prev.disabled = index <= 0;
+  els.next.disabled = index < 0 || index >= readings.length - 1;
+}
+
 function openReading(readingId) {
   currentId = readingId;
   const reading = getReading();
@@ -73,9 +81,18 @@ function openReading(readingId) {
   els.vocab.value = work.vocab || "";
   renderPassage(reading);
   renderQuestions(reading, work);
+  updateReadingNav();
 
   els.menuPage.classList.add("hidden");
   els.studyPage.classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function moveReading(direction) {
+  const index = readings.findIndex((reading) => reading.id === currentId);
+  const nextIndex = index + direction;
+  if (nextIndex < 0 || nextIndex >= readings.length) return;
+  openReading(readings[nextIndex].id);
 }
 
 function renderPassage(reading) {
@@ -86,8 +103,9 @@ function renderPassage(reading) {
     block.className = "paragraph";
     block.innerHTML = `
       <span class="paragraph-number">P${index + 1}</span>
-      <p>${paragraph}</p>
+      <p></p>
     `;
+    block.querySelector("p").textContent = paragraph;
     els.passage.appendChild(block);
   });
 }
@@ -182,11 +200,14 @@ function renderQuestions(reading, work) {
 
 els.search.addEventListener("input", renderMenu);
 
-els.back.addEventListener("click", () => {
+els.menu.addEventListener("click", () => {
   els.studyPage.classList.add("hidden");
   els.menuPage.classList.remove("hidden");
   renderMenu();
 });
+
+els.prev.addEventListener("click", () => moveReading(-1));
+els.next.addEventListener("click", () => moveReading(1));
 
 els.summary.addEventListener("input", () => {
   if (!currentId) return;
