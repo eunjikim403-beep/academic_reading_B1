@@ -39,6 +39,13 @@ button {
   min-height: 100vh;
 }
 
+.site-brand {
+  margin-bottom: 18px;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 900;
+}
+
 .menu-page {
   width: min(1060px, calc(100% - 40px));
   margin: 0 auto;
