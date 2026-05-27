@@ -168,26 +168,6 @@ button {
   gap: 12px;
 }
 
-.document-info {
-  border: 1px solid #cbded8;
-  border-radius: 8px;
-  background: var(--soft);
-  padding: 14px;
-}
-
-.document-info-title {
-  display: inline-block;
-  margin-bottom: 8px;
-  color: var(--accent-dark);
-  font-weight: 800;
-  font-size: 13px;
-}
-
-.document-info p {
-  margin: 4px 0;
-  line-height: 1.5;
-}
-
 .paragraph {
   border: 1px solid var(--line);
   border-radius: 8px;

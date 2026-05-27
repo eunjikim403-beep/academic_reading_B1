@@ -16,11 +16,11 @@ const els = {
 let currentId = "";
 
 function getStore() {
-  return JSON.parse(localStorage.getItem("toefl-reallife-b1") || "{}");
+  return JSON.parse(localStorage.getItem("toefl-reading-clean") || "{}");
 }
 
 function setStore(store) {
-  localStorage.setItem("toefl-reallife-b1", JSON.stringify(store));
+  localStorage.setItem("toefl-reading-clean", JSON.stringify(store));
 }
 
 function getReading() {
@@ -80,22 +80,6 @@ function openReading(readingId) {
 
 function renderPassage(reading) {
   els.passage.innerHTML = "";
-
-  if (reading.header?.length) {
-    const info = document.createElement("article");
-    info.className = "document-info";
-    info.innerHTML = `
-      <span class="document-info-title">문서 정보</span>
-      <div></div>
-    `;
-    const list = info.querySelector("div");
-    reading.header.forEach((line) => {
-      const row = document.createElement("p");
-      row.textContent = line;
-      list.appendChild(row);
-    });
-    els.passage.appendChild(info);
-  }
 
   reading.paragraphs.forEach((paragraph, index) => {
     const block = document.createElement("article");
